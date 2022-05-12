@@ -1,0 +1,64 @@
+
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>Search Employee Record</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+</head>
+
+<h2 class="text-center alert alert-info">Search Employee Record</h2>
+<br>
+<div align="right">
+            <a class="alert btn-primary btn-lg btn-block" href="{% url 'logout' %}">logout</a>
+        </div><br><br>
+<div align="center">
+            <a class="alert btn-primary btn-lg btn-block" href="/home">Go To Home Page</a>
+            <a class="alert btn-primary btn-lg btn-block" href="/AddRec">Add New Record</a>
+            <a class="alert btn-primary btn-lg btn-block" href="/ShowRec">Show All Record</a>
+            <a class="alert btn-primary btn-lg btn-block" href="/ShowRec">Edit Record</a>
+            <a class="alert btn-primary btn-lg btn-block" href="/ShowRec">Delete Record</a>
+            <a class="alert btn-primary btn-lg btn-block" href="/SearchRec">Search Record</a>
+        </div>
+<br><br>
+<h4 style="color:red">Hello, {{request.session.username}}</h4>
+<div class="container">
+    <div class="jumbotron">
+<body>
+<form action="{% url 'SearchRec' %}" method="POST">
+    {% csrf_token %}
+    Search Employee: <input type="text" name="EmpName">
+    <input type="submit" name="submit" value="Search" class="btn btn-success">
+</form>
+<br>
+        {% if emp != None %}
+<table border="1" align="center" class="table table-hover">
+
+        <thead class="text-center alert alert-success">
+        <th>Employee Id</th>
+        <th>Employee Name</th>
+        <th>Employee Contact</th>
+        <th>Employee Salary</th>
+        <th>Employee Email</th>
+        <th>Employee Address</th>
+        </thead>
+            {% for result in emp %}
+            <tr>
+                <td align="center">{{result.EmpId}}</td>
+                <td align="center">{{result.EmpName}}</td>
+                <td align="center">{{result.EmpContact}}</td>
+                <td align="center">{{result.EmpSal}}</td>
+                <td align="center">{{result.EmpEmail}}</td>
+                <td align="center">{{result.EmpAddress}}</td>
+            </tr>
+    {% endfor %}
+        </table>
+{% endif %}
+
+</body>
+    </div>
+</div>
+</html>
+
+

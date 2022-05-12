@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>All Employee Record</title>
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/index.css' %}">
+<!--    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.css">-->
+<!--<script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.3/js/jquery.dataTables.js"></script>-->
+    <script>;
+        $(document).ready(function(){
+            $("button").click(function(){
+                $(this).hide();
+            });
+        });
+    </script>
+        <script>
+        $(document).on('click', '.confirm-delete', function(){
+        return confirm('Are you sure you want to delete this?');
+        });
+    </script>
+</head>
+<div class="container">
+    <div class="jumbotron">
+        <body>
+        <br>
+        <h2 class="text-center alert alert-info">All Employee Record</h2>
+        <br>
+        <div align="right">
+            <a class="alert btn-primary btn-lg btn-block" href="{% url 'logout' %}">logout</a>
+        </div><br><br>
+        <div align="center">
+            <a class="alert btn-primary btn-lg btn-block" href="/home">Go To Home Page</a>
+<!--            <a class="alert btn-primary btn-lg btn-block" href="{% url 'logout' %}">logout</a>-->
+            <a class="alert btn-primary btn-lg btn-block" href="/AddRec">Add New Record</a>
+            <a class="alert btn-primary btn-lg btn-block" href="/ShowRec">Show All Record</a>
+            <a class="alert btn-primary btn-lg btn-block" href="/SearchRec">Search Record</a>
+        </div>
+        <br>
+        <h4 style="color:red">Hello, {{request.session.username}}</h4>
+        <table border="1" class="table table-hover" id="table_id">
+        <thead  class="text-center alert alert-success">
+
+        <th class="alert alert-success" onclick="window.location.href='/SortRecByEmpId'">Employee Id</th>
+        <th class="alert alert-success" onclick="window.location.href='/SortRecByEmpName'">Employee Name</th>
+        <th class="alert alert-success" onclick="window.location.href='/SortRecByEmpContact'">Employee Contact</th>
+        <th class="alert alert-success" onclick="window.location.href='/SortRecByEmpSal'">Employee Salary</th>
+        <th class="alert alert-success" onclick="window.location.href='/SortRecByEmpEmail'">Employee Email</th>
+        <th class="alert alert-success" onclick="window.location.href='/SortRecByEmpAddress'">Employee Address</th>
+        <th>Delete</th>
+        <th>Edit</th>
+        </thead>
+            {% for emp in page_obj.object_list %}
+            <tr>
+                <td align="center">{{emp.EmpId}}</td>
+                <td align="center">{{emp.EmpName}}</td>
+                <td align="center">{{emp.EmpContact}}</td>
+                <td align="center">{{emp.EmpSal}}</td>
+                <td align="center">{{emp.EmpEmail}}</td>
+                <td align="center">{{emp.EmpAddress}}</td>
+                <td align="center"><a  class="btn btn-warning" href="/EditRec/{{ emp.id }}">Edit</a></td>
+                <td align="center"><a  class="btn btn-danger" href="/DeleteRec/{{ emp.id }}">Delete</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+<!--            <button class="alert btn-warning" onclick="window.location.href='/SortRecByEmpName'">Sort Record By Employee Name</button>-->
+<!--            <button class="alert btn-warning" onclick="window.location.href='/SortRecByEmpId'">Sort Record By Employee Id</button>-->
+        <br>
+        <br>
+        <center>
+        {%if page_obj.has_previous %}
+            <a href="?page={{page_obj.previous_page_number}}"><</a>
+        {% endif %}
+        <span>{{page_obj.number}}</span>
+        {%if page_obj.has_next %}
+            <a href="?page={{page_obj.next_page_number}}">></a>
+        {% endif %}
+    </center>
+</body>
+    </div>
+</div>
+</html>
